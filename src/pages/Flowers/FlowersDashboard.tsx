@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  AiOutlineDollar,
+  AiOutlineUser,
+  AiOutlineShoppingCart,
+  AiOutlineClockCircle,
+} from "react-icons/ai";
 
 interface InvoiceData {
   invoice: string;
@@ -69,21 +75,7 @@ const FlowersDashboard: React.FC = () => {
               <h3 className="whitespace-nowrap tracking-tight text-sm font-medium">
                 Total Revenue
               </h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              >
-                <line x1="12" x2="12" y1="2" y2="22"></line>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-              </svg>
+              <AiOutlineDollar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             </div>
             <div className="p-6">
               <div className="text-2xl font-bold">{totalRevenue.amount}</div>
@@ -102,23 +94,7 @@ const FlowersDashboard: React.FC = () => {
               <h3 className="whitespace-nowrap tracking-tight text-sm font-medium">
                 Subscriptions
               </h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              >
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
+              <AiOutlineUser className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             </div>
             <div className="p-6">
               <div className="text-2xl font-bold">{subscriptions.count}</div>
@@ -137,21 +113,7 @@ const FlowersDashboard: React.FC = () => {
               <h3 className="whitespace-nowrap tracking-tight text-sm font-medium">
                 Sales
               </h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              >
-                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
-                <line x1="2" x2="22" y1="10" y2="10"></line>
-              </svg>
+              <AiOutlineShoppingCart className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             </div>
             <div className="p-6">
               <div className="text-2xl font-bold">{sales.count}</div>
@@ -170,20 +132,7 @@ const FlowersDashboard: React.FC = () => {
               <h3 className="whitespace-nowrap tracking-tight text-sm font-medium">
                 Active Now
               </h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
+              <AiOutlineClockCircle className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             </div>
             <div className="p-6">
               <div className="text-2xl font-bold">{activeNow.count}</div>

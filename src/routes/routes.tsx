@@ -4,20 +4,26 @@ import { routesGenerator } from "../utils/RoutesGenerator"
 import { UserSidebarPaths } from "./user.routes"
 import Login from "../pages/Login/Login"
 import Register from "../pages/Login/Register"
+import { UserProtectedRoute } from "../private/UserProtectedRoute"
 
 const router = createBrowserRouter([
   {
-    path:"/",
-    element:<App />,
-    children:routesGenerator(UserSidebarPaths)
-  },{
-    path:"/login",
-    element:<Login />
+    path: "/",
+    element: (
+      <UserProtectedRoute>
+        <App />
+      </UserProtectedRoute>
+    ),
+    children: routesGenerator(UserSidebarPaths),
   },
   {
-    path:"/register",
-    element:<Register />
-  }
-])
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
 
 export default router;

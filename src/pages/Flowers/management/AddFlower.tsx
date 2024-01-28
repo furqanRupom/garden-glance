@@ -16,7 +16,7 @@ const AddFlower = () => {
   const navigate = useNavigate();
 
   const handleAddFlower = async (data: IFlowers) => {
-    const {price,quantity,size,fragrance,bloomDate,name,color} =data
+    const {price,quantity,size,type,fragrance,bloomDate,name,color} =data
     const toastId = toast.loading("Add Flower in processing ...");
     const addData = {
       name,
@@ -25,15 +25,20 @@ const AddFlower = () => {
       quantity: Number(quantity),
       color,
       size,
+      type,
       fragrance,
       bloomDate
     };
 
     try {
-       await addFlower(addData);
-      toast.success("Add New Flower Successfully !", { id: toastId });
-      navigate('/view-flowers')
-      navigate(0);
+
+      const res =  await addFlower(addData);
+      if(!(res as any).error){
+        toast.success("Add New Flower Successfully !", { id: toastId });
+        navigate('/view-flowers')
+        navigate(0);
+      }
+     
     } catch (error) {
       toast.error("Something went wrong !", { id: toastId });
     }
@@ -136,6 +141,20 @@ const AddFlower = () => {
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
           </select>
+        </div>
+
+        {/* Type */}
+        <div className="grid gap-2">
+          <label htmlFor="type" className="text-sm font-medium leading-none">
+            Type
+          </label>
+          <input
+            type="text"
+            id="type"
+            placeholder="Enter Type"
+            className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            {...register("type")}
+          />
         </div>
 
         {/* Fragrance */}

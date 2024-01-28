@@ -15,20 +15,27 @@ const flowersApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    bulkDelete:builder.mutation({
-      query:(data) => ({
-        url:"flowers/bulk/delete",
-        method:"DELETE",
-        body:data
-      })
+    bulkDelete: builder.mutation({
+      query: (data) => ({
+        url: "flowers/bulk/delete",
+        method: "DELETE",
+        body: data,
+      }),
     }),
-     delete:builder.mutation({
-      query:(id) => ({
-        url:`/flowers/${id}`,
-        method:"DELETE",
-      })
-    })
+    delete: builder.mutation({
+      query: (id) => ({
+        url: `/flowers/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    getFlower: builder.query({
+      query: (id) => ({
+        url: `/flowers/${id}`,
+        method: "GET",
+      }),
+    }),
+    
   }),
 });
 
-export const { useAddFlowerMutation,useAllFlowersQuery,useBulkDeleteMutation,useDeleteMutation } = flowersApi;
+export const { useAddFlowerMutation,useAllFlowersQuery,useBulkDeleteMutation,useDeleteMutation,useGetFlowerQuery } = flowersApi;

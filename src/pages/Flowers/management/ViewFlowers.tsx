@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // ViewFlowers.tsx
-import React from "react";
+import React, { useState } from "react";
 
 import {
   useAllFlowersQuery,
@@ -10,11 +10,23 @@ import {
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IFlowers } from "../../../interface/flowers";
 import { toast } from "sonner";
+import { Modal } from "antd";
+import SellModalForm from "../../../components/form/SellModalForm";
 
 const ViewFlowers: React.FC = () => {
   const { data } = useAllFlowersQuery(undefined);
   const [bulkDelete] = useBulkDeleteMutation();
   const [productDelete] = useDeleteMutation();
+  const [open, setOpen] = useState<boolean>(false);
+  const [productId,setProductId] = useState<string>('');
+
+  /* sell product */
+
+  const showModalAndSell = (id) => {
+    setProductId(id);
+    setOpen(true);
+
+  }
 
   const productIds: any[] = [];
   const handleSelectValue = (value: string) => {
@@ -26,7 +38,8 @@ const ViewFlowers: React.FC = () => {
   /* handle bulk delete */
 
   const handleBulkDelete = async () => {
-     const toastId = toast.loading("flowers deleting on processing ...");
+    const toastId = toast.loading("flowers deleting on processing ...");
+
     try {
       const res = await bulkDelete(productIds);
       console.log(res);
@@ -35,10 +48,10 @@ const ViewFlowers: React.FC = () => {
         window.location.reload();
       }
     } catch (error) {
-        toast.error("Something went wrong !", {
-          id: toastId,
-          duration: 2000,
-        });
+      toast.error("Something went wrong !", {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 
@@ -65,7 +78,9 @@ const ViewFlowers: React.FC = () => {
     <div className="w-full h-full flex flex-col max-w-6xl mx-auto bg-">
       <main className="flex flex-1 flex-col gap-4  p-4 w-full md:gap-8 md:p-6">
         <div className="flex items-center">
-          <h1 className="font-semibold text-lg md:text-2xl">Flowers</h1>
+          <h1 className="font-semibold text-lg md:text-2xl">
+            Welcome to Flowers <span className="text-gray-500">Inventory</span>{" "}
+          </h1>
           <div className="ml-auto flex gap-2">
             <select
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -89,12 +104,13 @@ const ViewFlowers: React.FC = () => {
                       <th className="px-6 py-2 text-xs text-gray-500"></th>
                       <th className="px-6 py-2 text-xs text-gray-500">Name</th>
                       <th className="px-6 py-2 text-xs text-gray-500">Color</th>
+                      <th className="px-6 py-2 text-xs text-gray-500">Size</th>
+                      <th className="px-6 py-2 text-xs text-gray-500">Type</th>
                       <th className="px-6 py-2 text-xs text-gray-500">
                         Bloom Date
                       </th>
-                      <th className="px-6 py-2 text-xs text-gray-500">Edit</th>
                       <th className="px-6 py-2 text-xs text-gray-500">
-                        Delete
+                        Actions
                       </th>
                     </tr>
                   </thead>
@@ -117,21 +133,54 @@ const ViewFlowers: React.FC = () => {
                             {product.color}
                           </div>
                         </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.size}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.type}
+                          </div>
+                        </td>
                         <td className="px-6 py-4 text-sm text-gray-500">
                           {product.bloomDate}
                         </td>
                         <td className="px-6 py-4">
-                          <a href="#" className="text-lg text-blue-400 rounded">
-                            <FaEdit />
-                          </a>
-                        </td>
-                        <td
-                          onClick={() => handleDelete(product._id as string)}
-                          className="px-6 py-4"
-                        >
-                          <a href="#" className="text-lg text-red-400 rounded">
-                            <FaTrash />
-                          </a>
+                          <ul className="flex items-center space-x-5">
+                            <li>
+                              <a
+                                href="#"
+                                className="text-lg text-blue-400 rounded"
+                              >
+                                <FaEdit />
+                              </a>
+                            </li>
+
+                            <li
+                              onClick={() =>
+                                handleDelete(product._id as string)
+                              }
+                            >
+                              <a
+                                href="#"
+                                className="text-lg text-red-400 rounded"
+                              >
+                                <FaTrash />
+                              </a>
+                            </li>
+
+                            <li>
+                              <input
+                                onClick={() =>
+                                  showModalAndSell(product._id as string)
+                                }
+                                className="bg-green-400 cursor-pointer p-1 px-3 font-semibold text-white rounded-xl hover:bg-green-500"
+                                type="submit"
+                                value="sell"
+                              />
+                            </li>
+                          </ul>
                         </td>
                       </tr>
                     ))}
@@ -141,6 +190,7 @@ const ViewFlowers: React.FC = () => {
             </div>
           </div>
         </div>
+        <SellModalForm setOpen={setOpen} open={open} id={productId} />
       </main>
     </div>
   );

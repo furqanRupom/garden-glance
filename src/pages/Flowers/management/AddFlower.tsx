@@ -27,15 +27,13 @@ const AddFlower = () => {
       size,
       fragrance,
       bloomDate
-
-
     };
 
     try {
        await addFlower(addData);
-
       toast.success("Add New Flower Successfully !", { id: toastId });
       navigate('/view-flowers')
+      navigate(0);
     } catch (error) {
       toast.error("Something went wrong !", { id: toastId });
     }

@@ -9,7 +9,7 @@ interface userProtectedProps {
 
 export const UserProtectedRoute:FC<userProtectedProps> = ({children}) => {
   const user = useSelector(getCurrentUser);
- console.log(user);
+
 
   if(!user){
   return <Navigate to="/login"></Navigate>

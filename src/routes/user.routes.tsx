@@ -8,7 +8,7 @@ import SalesHistory from "../pages/Sales/SalesHistory";
 export const UserSidebarPaths = [
   {
     name: "dashboard",
-   
+
     path: "dashboard",
     element: <FlowersDashboard />,
   },
@@ -17,7 +17,7 @@ export const UserSidebarPaths = [
     children: [
       {
         name: "View Flowers ",
-        path: "view-flower",
+        path: "view-flowers",
         element: <ViewFlowers />,
       },
       {

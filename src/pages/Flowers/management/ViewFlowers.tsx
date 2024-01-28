@@ -26,11 +26,19 @@ const ViewFlowers: React.FC = () => {
   /* handle bulk delete */
 
   const handleBulkDelete = async () => {
-    const res = await bulkDelete(productIds);
-    console.log(res);
-    if ((res as any)?.data.success) {
-      toast("all the product deleted successfully !", { duration: 2000 });
-      window.location.reload();
+     const toastId = toast.loading("flowers deleting on processing ...");
+    try {
+      const res = await bulkDelete(productIds);
+      console.log(res);
+      if ((res as any)?.data.success) {
+        toast("all the flowers deleted successfully !", { duration: 2000 });
+        window.location.reload();
+      }
+    } catch (error) {
+        toast.error("Something went wrong !", {
+          id: toastId,
+          duration: 2000,
+        });
     }
   };
 

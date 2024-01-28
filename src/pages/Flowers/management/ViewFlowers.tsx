@@ -5,6 +5,7 @@ import React from "react";
 import {
   useAllFlowersQuery,
   useBulkDeleteMutation,
+  useDeleteMutation,
 } from "../../../redux/features/flower/flowersApi";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IFlowers } from "../../../interface/flowers";
@@ -13,6 +14,7 @@ import { toast } from "sonner";
 const ViewFlowers: React.FC = () => {
   const { data } = useAllFlowersQuery(undefined);
   const [bulkDelete] = useBulkDeleteMutation();
+  const [productDelete] = useDeleteMutation();
 
   const productIds: any[] = [];
   const handleSelectValue = (value: string) => {
@@ -21,18 +23,35 @@ const ViewFlowers: React.FC = () => {
     }
   };
 
+  /* handle bulk delete */
+
   const handleBulkDelete = async () => {
     const res = await bulkDelete(productIds);
     console.log(res);
-    if ((res as any)?.data.success ) {
+    if ((res as any)?.data.success) {
       toast("all the product deleted successfully !", { duration: 2000 });
       window.location.reload();
     }
   };
 
-  // const datas: never[] = [
-  //   // Add your data here
-  // ];
+  /* handle single product delete */
+
+  const handleDelete = async (id: string) => {
+    const toastId = toast.loading("flower deleting on processing ...");
+    try {
+      await productDelete(id);
+      toast.success("flowers successfully deleted !", {
+        id: toastId,
+        duration: 2000,
+      });
+      window.location.reload();
+    } catch (error) {
+      toast.error("Something went wrong !", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col max-w-6xl mx-auto bg-">
@@ -98,7 +117,10 @@ const ViewFlowers: React.FC = () => {
                             <FaEdit />
                           </a>
                         </td>
-                        <td className="px-6 py-4">
+                        <td
+                          onClick={() => handleDelete(product._id as string)}
+                          className="px-6 py-4"
+                        >
                           <a href="#" className="text-lg text-red-400 rounded">
                             <FaTrash />
                           </a>

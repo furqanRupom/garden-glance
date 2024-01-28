@@ -21,8 +21,14 @@ const flowersApi = baseApi.injectEndpoints({
         method:"DELETE",
         body:data
       })
+    }),
+     delete:builder.mutation({
+      query:(id) => ({
+        url:`/flowers/${id}`,
+        method:"DELETE",
+      })
     })
   }),
 });
 
-export const { useAddFlowerMutation,useAllFlowersQuery,useBulkDeleteMutation } = flowersApi;
+export const { useAddFlowerMutation,useAllFlowersQuery,useBulkDeleteMutation,useDeleteMutation } = flowersApi;

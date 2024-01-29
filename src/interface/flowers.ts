@@ -17,3 +17,5 @@ export interface ISeller {
   saleDate: Date;
   quantity: number;
 }
+
+export type ISalesHistoryValue = "yearly" | "weekly" | " daily" | "monthly";

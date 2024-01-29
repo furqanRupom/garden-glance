@@ -2,7 +2,6 @@ import FlowersDashboard from "../pages/Flowers/FlowersDashboard";
 import AddFlower from "../pages/Flowers/management/AddFlower";
 import UpdateFlower from "../pages/Flowers/management/UpdateFlower";
 import ViewFlowers from "../pages/Flowers/management/ViewFlowers";
-import SalesFlower from "../pages/Sales/SalesFlower";
 import SalesHistory from "../pages/Sales/SalesHistory";
 
 export const UserSidebarPaths = [
@@ -36,15 +35,10 @@ export const UserSidebarPaths = [
     name: "Sales Management",
     children: [
       {
-        name: "Sales Flower",
-        path: "sales-flower",
-        element: <SalesFlower />,
-      },
-      {
         name: "Sales History",
         path: "create-faculty",
         element: <SalesHistory />,
-      },
+      }
     ],
   },
 ];

@@ -11,8 +11,14 @@ const salesApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    soldProductHistory: builder.query({
+      query: (category) => ({
+        url: `/flowers/sell/history?category=${category}`,
+        method:'GET'
+      }),
+    }),
   }),
 });
 
 
-export const {useAddSoldProductMutation} = salesApi
+export const {useAddSoldProductMutation,useSoldProductHistoryQuery} = salesApi

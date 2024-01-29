@@ -14,6 +14,6 @@ export interface IFlowers {
 export interface ISeller {
   id: string;
   buyerName: string;
-  saleDate: string;
+  saleDate: Date;
   quantity: number;
 }

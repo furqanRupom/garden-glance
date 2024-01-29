@@ -10,7 +10,6 @@ import {
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { IFlowers } from "../../../interface/flowers";
 import { toast } from "sonner";
-import { Modal } from "antd";
 import SellModalForm from "../../../components/form/SellModalForm";
 
 const ViewFlowers: React.FC = () => {
@@ -22,7 +21,7 @@ const ViewFlowers: React.FC = () => {
 
   /* sell product */
 
-  const showModalAndSell = (id) => {
+  const showModalAndSell = (id:string) => {
     setProductId(id);
     setOpen(true);
 
@@ -107,6 +106,9 @@ const ViewFlowers: React.FC = () => {
                       <th className="px-6 py-2 text-xs text-gray-500">Size</th>
                       <th className="px-6 py-2 text-xs text-gray-500">Type</th>
                       <th className="px-6 py-2 text-xs text-gray-500">
+                        Quantity
+                      </th>
+                      <th className="px-6 py-2 text-xs text-gray-500">
                         Bloom Date
                       </th>
                       <th className="px-6 py-2 text-xs text-gray-500">
@@ -141,6 +143,11 @@ const ViewFlowers: React.FC = () => {
                         <td className="px-6 py-4">
                           <div className="text-sm text-gray-500">
                             {product.type}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.quantity}
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-500">

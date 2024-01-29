@@ -18,4 +18,6 @@ export interface ISeller {
   quantity: number;
 }
 
+export type iSize = 'Small' | 'Medium' | 'Large';
+
 export type ISalesHistoryValue = "yearly" | "weekly" | " daily" | "monthly";

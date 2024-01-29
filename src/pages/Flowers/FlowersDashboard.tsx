@@ -1,10 +1,16 @@
+import { Avatar } from "antd";
 import React from "react";
+import { UserOutlined } from '@ant-design/icons'
 import {
   AiOutlineDollar,
   AiOutlineUser,
   AiOutlineShoppingCart,
   AiOutlineClockCircle,
 } from "react-icons/ai";
+import { FaSignOutAlt } from "react-icons/fa";
+import { logout } from "../../redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+
 
 interface InvoiceData {
   invoice: string;
@@ -62,8 +68,28 @@ const FlowersDashboard: React.FC = () => {
     { invoice: "INV005", status: "Paid", amount: "$550.00", method: "PayPal" },
   ];
 
+
+  const dispatch = useDispatch();
+
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen ">
+      <header className="w-full border">
+        <div className="flex justify-between py-5 max-w-5xl  mx-auto w-full">
+          <h3 className="text-xl lg:text-2xl ">
+            Welcome to <span className="text-gray-500">Garden Glance</span>
+          </h3>
+
+          <div className="flex items-center space-x-5 text-2xl">
+            <Avatar
+              style={{ backgroundColor: "gray" }}
+              icon={<UserOutlined />}
+            />
+            <button onClick={() => dispatch(logout())}>
+              <FaSignOutAlt className="text-red-400 hover:text-red-500" />
+            </button>
+          </div>
+        </div>
+      </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
         {/* Total Revenue */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

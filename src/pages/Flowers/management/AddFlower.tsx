@@ -38,7 +38,7 @@ const AddFlower = () => {
         navigate('/view-flowers')
         navigate(0);
       }
-     
+
     } catch (error) {
       toast.error("Something went wrong !", { id: toastId });
     }
@@ -148,13 +148,21 @@ const AddFlower = () => {
           <label htmlFor="type" className="text-sm font-medium leading-none">
             Type
           </label>
-          <input
-            type="text"
-            id="type"
-            placeholder="Enter Type"
+          <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("type")}
-          />
+          >
+            <option defaultValue="default" value="default">
+              Choose type
+            </option>
+            <option value="Roses">Roses</option>
+            <option value="SunFlowers">SunFlowers</option>
+            <option value="Lavender">Lavender</option>
+            <option value="Jasmine">Jasmine</option>
+            <option value="Lilies">Lilies</option>
+            <option value="Gardenias">Gardenias</option>
+            <option value="Peonies">Lilies</option>
+          </select>
         </div>
 
         {/* Fragrance */}
@@ -165,13 +173,21 @@ const AddFlower = () => {
           >
             Fragrance
           </label>
-          <input
-            type="text"
-            id="fragrance"
-            placeholder="Enter fragrance"
+          <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("fragrance")}
-          />
+          >
+            <option defaultValue="default" value="default">
+              Choose Fragrance
+            </option>
+            <option value="ClassicRose">Classic Rose</option>
+            <option value="SunnyFlowers">Sunny Flowers</option>
+            <option value="LavenderBliss">Lavender Bliss</option>
+            <option value="ExoticJasmine">Exotic Jasmine</option>
+            <option value="SweetLily">Sweet Lily</option>
+            <option value="IntoxicatingGardenia">Lilies</option>
+            <option value="RomanticPeony">Romantic Peony</option>
+          </select>
         </div>
 
         {/* Add Flower Button */}

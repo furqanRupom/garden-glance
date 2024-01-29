@@ -58,7 +58,7 @@ const SellModalForm = ({ setOpen, open, id }: SellModalFormProps) => {
 
   return (
     <Modal
-      title="Sell Card Form"
+    
       open={open}
       onCancel={handleCancel}
       footer={null} // Removing the footer (buttons)

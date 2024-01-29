@@ -7,17 +7,33 @@ import {
   useBulkDeleteMutation,
   useDeleteMutation,
 } from "../../../redux/features/flower/flowersApi";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import {FaEdit, FaTrash } from "react-icons/fa";
 import { IFlowers } from "../../../interface/flowers";
 import { toast } from "sonner";
 import SellModalForm from "../../../components/form/SellModalForm";
 
 const ViewFlowers: React.FC = () => {
-  const { data } = useAllFlowersQuery(undefined);
+  // const { data } = useAllFlowersQuery(undefined);
   const [bulkDelete] = useBulkDeleteMutation();
   const [productDelete] = useDeleteMutation();
   const [open, setOpen] = useState<boolean>(false);
   const [productId,setProductId] = useState<string>('');
+
+  const [size,setSize] = useState<string>("");
+  const [price,setPrice] = useState<string>("");
+  const [fragrance,setFragrance] = useState<string>("");
+  const [color,setColor] = useState<string>("");
+  const [type,setType] = useState<string>("");
+
+  const {data} = useAllFlowersQuery({
+    size:size,
+    color:color,
+    fragrance:fragrance,
+    price:price,
+    type:type
+  })
+
+  console.log(data);
 
   /* sell product */
 
@@ -73,25 +89,96 @@ const ViewFlowers: React.FC = () => {
     }
   };
 
+
+
   return (
     <div className="w-full h-full flex flex-col max-w-6xl mx-auto bg-">
       <main className="flex flex-1 flex-col gap-4  p-4 w-full md:gap-8 md:p-6">
         <div className="flex items-center">
-          <h1 className="font-semibold text-lg md:text-2xl">
-            Welcome to Flowers <span className="text-gray-500">Inventory</span>{" "}
-          </h1>
+          <div>
+            <h1 className="font-semibold text-lg md:text-2xl">
+              Welcome to Flowers{" "}
+              <span className="text-gray-500">Inventory</span>{" "}
+            </h1>
+            <input
+              type="text"
+              id="fragrance"
+              placeholder="Search by Color"
+              onChange={(e) => setColor(e.target.value)}
+              className="h-10 px-4 border rounded-3xl focus:outline-none focus:ring focus:border-gray-300 w-full mt-3"
+            />
+          </div>
+
           <div className="ml-auto flex gap-2">
             <select
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 handleSelectValue(e.target.value)
               }
               defaultValue="bulk"
-              className="action-button"
+              className="px-4 py-2 border rounded-md bg-white shadow-md text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
             >
               <option value="bulk">Bulk Actions</option>
               <option value="bulkDelete">Bulk Delete</option>
             </select>
           </div>
+        </div>
+
+        <div className="flex items-center space-x-3">
+          <select
+            onChange={(e) => setPrice(e.target.value)}
+            className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
+          >
+            <option defaultValue="default" value="default">
+              Price Range
+            </option>
+            <option value="one">$0 - $100</option>
+            <option value="two">$100 - $500</option>
+            <option value="three">$500 - $1000</option>
+          </select>
+
+          <select
+            onChange={(e) => setSize(e.target.value)}
+            className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
+          >
+            <option defaultValue="default" value="default">
+              Filter By Size
+            </option>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+          </select>
+
+          <select
+            onChange={(e) => setType(e.target.value)}
+            className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
+          >
+            <option defaultValue="default" value="default">
+              Filter By Type
+            </option>
+            <option value="Roses">Roses</option>
+            <option value="SunFlowers">SunFlowers</option>
+            <option value="Lavender">Lavender</option>
+            <option value="Jasmine">Jasmine</option>
+            <option value="Lilies">Lilies</option>
+            <option value="Gardenias">Gardenias</option>
+            <option value="Peonies">Lilies</option>
+          </select>
+
+          <select
+            onChange={(e) => setFragrance(e.target.value)}
+            className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
+          >
+            <option defaultValue="default" value="default">
+              Filter By Fragrance
+            </option>
+            <option value="ClassicRose">Classic Rose</option>
+            <option value="SunnyFlowers">Sunny Flowers</option>
+            <option value="LavenderBliss">Lavender Bliss</option>
+            <option value="ExoticJasmine">Exotic Jasmine</option>
+            <option value="SweetLily">Sweet Lily</option>
+            <option value="IntoxicatingGardenia">Lilies</option>
+            <option value="RomanticPeony">Romantic Peony</option>
+          </select>
         </div>
         <div className=" flex justify-center mx-auto w-full">
           <div className="flex flex-col w-full">
@@ -111,13 +198,14 @@ const ViewFlowers: React.FC = () => {
                       <th className="px-6 py-2 text-xs text-gray-500">
                         Bloom Date
                       </th>
+                      <th className="px-6 py-2 text-xs text-gray-500">Price</th>
                       <th className="px-6 py-2 text-xs text-gray-500">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {data?.data.map((product: IFlowers) => (
+                    {data?.data?.map((product: IFlowers) => (
                       <tr key={product.name} className="whitespace-nowrap">
                         <td className="px-6 py-4 text-sm text-gray-500">
                           <input
@@ -153,6 +241,9 @@ const ViewFlowers: React.FC = () => {
                         <td className="px-6 py-4 text-sm text-gray-500">
                           {product.bloomDate}
                         </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          ${product.price}
+                        </td>
                         <td className="px-6 py-4">
                           <ul className="flex items-center space-x-5">
                             <li>
@@ -186,6 +277,12 @@ const ViewFlowers: React.FC = () => {
                                 type="submit"
                                 value="sell"
                               />
+                            </li>
+
+                            <li>
+                              <button className="bg-gray-400 cursor-pointer p-1 px-3 font-semibold text-white rounded-xl hover:bg-gray-500">
+                                Edit and Duplicate
+                              </button>
                             </li>
                           </ul>
                         </td>

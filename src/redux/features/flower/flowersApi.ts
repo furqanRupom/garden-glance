@@ -10,8 +10,8 @@ const flowersApi = baseApi.injectEndpoints({
       }),
     }),
     allFlowers: builder.query({
-      query: () => ({
-        url: "/flowers",
+      query: (data) => ({
+        url: `/flowers?color=${data?.color}&price=${data?.price}&size=${data?.size}&fragrance=${data?.fragrance}&type=${data?.type}`,
         method: "GET",
       }),
     }),
@@ -34,7 +34,7 @@ const flowersApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    
+
   }),
 });
 

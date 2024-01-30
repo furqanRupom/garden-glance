@@ -21,23 +21,26 @@ const UpdateFlower = () => {
   const location = useLocation();
   const id = location.search.split("=")[1];
   const { data: productData } = useGetFlowerQuery(id);
-  const data = productData?.data;
-
-  const handleAddFlower = async (data: IFlowers) => {
+  const updateProductData = productData?.data;
+  const handleUpdateFlower = async (data: IFlowers) => {
     const { price, quantity, size, type, fragrance, bloomDate, name, color } =
       data;
     const toastId = toast.loading("Update Flower in processing ...");
-     console.log(name.length)
+
+
     const updateData = {
-      name: name.length === 0 ? data?.name : name,
-      user: userData.data._id ,
-      price: price === 0 ? Number(data?.price) : Number(price),
-      quantity: quantity === 0 ? Number(data?.quantity) : Number(quantity),
-      color: color.length == 0 ? data?.color : color,
-      size: size.length == 0 ? data?.size : size,
-      type: type.length == 0  ? data?.type : type,
-      fragrance: fragrance.length == 0 ? data?.fragrance : fragrance,
-      bloomDate: bloomDate.length == 0 ? data?.bloomDate : bloomDate,
+      name: name.length == 0 ? updateProductData?.name : name,
+      user: userData.data._id,
+      price: price == 0 ? Number(updateProductData?.price) : Number(price),
+      quantity:
+        quantity == 0 ? Number(updateProductData?.quantity) : Number(quantity),
+      color: color.length == 0 ? updateProductData?.color : color,
+      size: size.length == 0 ? updateProductData?.size : size,
+      type: type.length == 0 ? updateProductData?.type : type,
+      fragrance:
+        fragrance.length == 0 ? updateProductData?.fragrance : fragrance,
+      bloomDate:
+        bloomDate.length == 0 ? updateProductData?.bloomDate : bloomDate,
     };
 
     try {
@@ -64,7 +67,7 @@ const UpdateFlower = () => {
       </h1>
 
       <form
-        onSubmit={handleSubmit(handleAddFlower as any)}
+        onSubmit={handleSubmit(handleUpdateFlower as any)}
         className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-x-12"
       >
         {/* Flower Name */}
@@ -79,7 +82,7 @@ const UpdateFlower = () => {
             id="flower-name"
             type="text"
             placeholder="Enter flower name"
-            defaultValue={data?.name}
+            defaultValue={updateProductData?.name}
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("name")}
           />
@@ -94,7 +97,7 @@ const UpdateFlower = () => {
             type="number"
             id="price"
             placeholder="Enter price"
-            defaultValue={data?.price}
+            defaultValue={updateProductData?.price}
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("price")}
           />
@@ -112,7 +115,7 @@ const UpdateFlower = () => {
             type="date"
             id="bloom-date"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
-            defaultValue={data?.bloomDate}
+            defaultValue={updateProductData?.bloomDate}
             {...register("bloomDate")}
           />
         </div>
@@ -125,7 +128,7 @@ const UpdateFlower = () => {
           <input
             type="text"
             id="color"
-            defaultValue={data?.color}
+            defaultValue={updateProductData?.color}
             placeholder="Enter color"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("color")}
@@ -140,7 +143,7 @@ const UpdateFlower = () => {
           <input
             type="number"
             id="type"
-            defaultValue={data?.quantity}
+            defaultValue={updateProductData?.quantity}
             placeholder="Enter Quantity"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("quantity")}
@@ -156,7 +159,7 @@ const UpdateFlower = () => {
             id="size"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("size")}
-            defaultValue={data?.size}
+            defaultValue={updateProductData?.size}
           >
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
@@ -172,7 +175,7 @@ const UpdateFlower = () => {
           <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("type")}
-            defaultValue={data?.type}
+            defaultValue={updateProductData?.type}
           >
             <option value="Roses">Roses</option>
             <option value="SunFlowers">SunFlowers</option>
@@ -195,7 +198,7 @@ const UpdateFlower = () => {
           <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("fragrance")}
-            defaultValue={data?.fragrance}
+            defaultValue={updateProductData?.fragrance}
           >
             <option value="ClassicRose">Classic Rose</option>
             <option value="SunnyFlowers">Sunny Flowers</option>

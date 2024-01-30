@@ -8,6 +8,7 @@ import { useGetFlowerQuery } from "../../redux/features/flower/flowersApi";
 import { ISeller } from "../../interface/flowers";
 import { toast } from "sonner";
 import { useAddSoldProductMutation } from "../../redux/features/sales/salesApi";
+import { useNavigate } from "react-router-dom";
 
 interface SellModalFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,11 +21,11 @@ const SellModalForm = ({ setOpen, open, id }: SellModalFormProps) => {
   const { data } = useSpecificUserQuery(email);
   const { data: flowerData } = useGetFlowerQuery(id);
   const [addProduct] = useAddSoldProductMutation();
+  const navigate = useNavigate();
 
   const name = data?.data?.name;
 
   const { handleSubmit, register } = useForm();
-  console.log(flowerData);
   const handleSellSubmit = async (data: ISeller) => {
     const toastId = toast.loading("product sell on processing ...");
     const { saleDate, quantity } = data;
@@ -46,7 +47,9 @@ const SellModalForm = ({ setOpen, open, id }: SellModalFormProps) => {
         id: toastId,
         duration: 2000,
       });
+      navigate(0)
       setOpen(false);
+
     } else {
       toast.error("The quantity exceeds the available quantity");
     }
@@ -58,7 +61,7 @@ const SellModalForm = ({ setOpen, open, id }: SellModalFormProps) => {
 
   return (
     <Modal
-    
+
       open={open}
       onCancel={handleCancel}
       footer={null} // Removing the footer (buttons)

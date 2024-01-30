@@ -32,6 +32,7 @@ const flowersApi = baseApi.injectEndpoints({
         method: "DELETE",
         body: data,
       }),
+
     }),
     delete: builder.mutation({
       query: (id) => ({
@@ -47,8 +48,8 @@ const flowersApi = baseApi.injectEndpoints({
     }),
     updateFlower: builder.mutation({
       query: (data) => ({
-        url: `/flowers/${data.id}`,
-        method: "PUT",
+        url: `/flowers/update/${data.id}`,
+        method: "PATCH",
         body: data.updateData,
       }),
     }),

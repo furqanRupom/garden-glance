@@ -25,8 +25,8 @@ const CreateVariant = () => {
     const addData = {
       name: name.length === 0 ? variantData?.name : name,
       user: userData.data._id,
-      price: price === 0 ? Number(variantData?.price) : Number(price),
-      quantity: quantity === 0 ? Number(variantData?.quantity) : Number(quantity),
+      price: price == 0 ? Number(variantData?.price) : Number(price),
+      quantity: quantity == 0 ? Number(variantData?.quantity) : Number(quantity),
       color: color.length == 0 ? variantData?.color : color,
       size: size.length == 0 ? variantData?.size : size,
       type: type.length == 0 ? variantData?.type : type,
@@ -36,9 +36,11 @@ const CreateVariant = () => {
 
     try {
       const res = await addFlower(addData);
+      console.log(res);
       if (!(res as any).error) {
         toast.success("Add New Flower Successfully !", { id: toastId });
         navigate("/view-flowers");
+        window.location.reload();
         navigate(0);
       }
       if((res as any).error){

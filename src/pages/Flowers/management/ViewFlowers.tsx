@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // ViewFlowers.tsx
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 
 import {
   useAllFlowersQuery,
@@ -26,19 +26,17 @@ const ViewFlowers: React.FC = () => {
   const [fragrance,setFragrance] = useState<string>("");
   const [color,setColor] = useState<string>("");
   const [type,setType] = useState<string>("");
-  const [viewData,setViewData] = useState([]);
+
   const navigate = useNavigate();
-  const {data,isLoading} = useAllFlowersQuery({
+  const {data:viewData,isLoading} = useAllFlowersQuery({
     size:size,
     color:color,
     fragrance:fragrance,
     price:price,
     type:type
   })
+  console.log(viewData);
 
-    useEffect(() => {
-      setViewData(data?.data);
-    }, [data?.data]);
 
 
   if(isLoading){
@@ -145,9 +143,7 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setPrice(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option >
-              Price Range
-            </option>
+            <option>Price Range</option>
             <option value="one">$0 - $100</option>
             <option value="two">$100 - $500</option>
             <option value="three">$500 - $1000</option>
@@ -157,9 +153,7 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setSize(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option >
-              Filter By Size
-            </option>
+            <option>Filter By Size</option>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
@@ -169,31 +163,25 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setType(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option >
-              Filter By Type
-            </option>
+            <option>Filter By Type</option>
             <option value="Roses">Roses</option>
             <option value="SunFlowers">SunFlowers</option>
             <option value="Lavender">Lavender</option>
             <option value="Jasmine">Jasmine</option>
             <option value="Lilies">Lilies</option>
             <option value="Gardenias">Gardenias</option>
-            <option value="Peonies">Lilies</option>
           </select>
 
           <select
             onChange={(e) => setFragrance(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option >
-              Filter By Fragrance
-            </option>
+            <option>Filter By Fragrance</option>
             <option value="ClassicRose">Classic Rose</option>
             <option value="SunnyFlowers">Sunny Flowers</option>
             <option value="LavenderBliss">Lavender Bliss</option>
             <option value="ExoticJasmine">Exotic Jasmine</option>
             <option value="SweetLily">Sweet Lily</option>
-            <option value="IntoxicatingGardenia">Lilies</option>
             <option value="RomanticPeony">Romantic Peony</option>
           </select>
         </div>
@@ -210,11 +198,12 @@ const ViewFlowers: React.FC = () => {
                       <th className="px-6 py-2 text-xs text-gray-500">Size</th>
                       <th className="px-6 py-2 text-xs text-gray-500">Type</th>
                       <th className="px-6 py-2 text-xs text-gray-500">
-                        Quantity
+                        Fragrance
                       </th>
                       <th className="px-6 py-2 text-xs text-gray-500">
-                        Bloom Date
+                        Quantity
                       </th>
+                   
                       <th className="px-6 py-2 text-xs text-gray-500">Price</th>
                       <th className="px-6 py-2 text-xs text-gray-500">
                         Actions
@@ -222,7 +211,7 @@ const ViewFlowers: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {viewData?.map((product: IFlowers) => (
+                    {viewData?.data?.map((product: IFlowers) => (
                       <tr key={product.name} className="whitespace-nowrap">
                         <td className="px-6 py-4 text-sm text-gray-500">
                           <input
@@ -252,11 +241,13 @@ const ViewFlowers: React.FC = () => {
                         </td>
                         <td className="px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {product.quantity}
+                            {product.fragrance}
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-500">
-                          {product.bloomDate}
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.quantity}
+                          </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-500">
                           ${product.price}
@@ -264,8 +255,8 @@ const ViewFlowers: React.FC = () => {
                         <td className="px-6 py-4">
                           <ul className="flex items-center space-x-5">
                             <li>
-                              <Link to={`/update-flower?id=${product._id}`}
-
+                              <Link
+                                to={`/update-flower?id=${product._id}`}
                                 className="text-lg text-blue-400 rounded"
                               >
                                 <FaEdit />
@@ -298,7 +289,9 @@ const ViewFlowers: React.FC = () => {
 
                             <li>
                               <button className="bg-border-400 border cursor-pointer p-1 px-3 font-semibold text-gray-500  rounded-xl hover:bg-border-500">
-                                <Link to={`/create-variant?id=${product._id}`}>create variant</Link>
+                                <Link to={`/create-variant?id=${product._id}`}>
+                                  create variant
+                                </Link>
                               </button>
                             </li>
                           </ul>

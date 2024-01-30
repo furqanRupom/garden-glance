@@ -164,7 +164,7 @@ const AddFlower = () => {
             <option value="Jasmine">Jasmine</option>
             <option value="Lilies">Lilies</option>
             <option value="Gardenias">Gardenias</option>
-            <option value="Peonies">Lilies</option>
+
           </select>
         </div>
 
@@ -188,7 +188,7 @@ const AddFlower = () => {
             <option value="LavenderBliss">Lavender Bliss</option>
             <option value="ExoticJasmine">Exotic Jasmine</option>
             <option value="SweetLily">Sweet Lily</option>
-            <option value="IntoxicatingGardenia">Lilies</option>
+           
             <option value="RomanticPeony">Romantic Peony</option>
           </select>
         </div>

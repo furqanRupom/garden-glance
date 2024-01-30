@@ -176,7 +176,6 @@ const CreateVariant = () => {
             <option value="Jasmine">Jasmine</option>
             <option value="Lilies">Lilies</option>
             <option value="Gardenias">Gardenias</option>
-            <option value="Peonies">Lilies</option>
           </select>
         </div>
 
@@ -193,13 +192,11 @@ const CreateVariant = () => {
             {...register("fragrance")}
             defaultValue={variantData?.fragrance}
           >
-
             <option value="ClassicRose">Classic Rose</option>
             <option value="SunnyFlowers">Sunny Flowers</option>
             <option value="LavenderBliss">Lavender Bliss</option>
             <option value="ExoticJasmine">Exotic Jasmine</option>
             <option value="SweetLily">Sweet Lily</option>
-            <option value="IntoxicatingGardenia">Lilies</option>
             <option value="RomanticPeony">Romantic Peony</option>
           </select>
         </div>

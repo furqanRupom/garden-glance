@@ -1,26 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAddFlowerMutation } from "../../../redux/features/flower/flowersApi";
+import { useAddFlowerMutation, useGetFlowerQuery } from "../../../redux/features/flower/flowersApi";
 import { IFlowers } from "../../../interface/flowers";
 import { useSpecificUserQuery } from "../../../redux/features/user/userApi";
 import { getCurrentUser } from "../../../redux/features/auth/authSlice";
 import { useSelector } from "react-redux";
-import { useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const AddFlower = () => {
-
-
-
+const CreateVariant = () => {
   const { register, handleSubmit } = useForm();
   const [addFlower] = useAddFlowerMutation();
   const email = useSelector(getCurrentUser)!.email;
-  const { data:userData } = useSpecificUserQuery(email);
+  const { data: userData } = useSpecificUserQuery(email);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const id = location.search.split("=")[1];
+  const {data:productData} = useGetFlowerQuery(id)
+  const data = productData?.data
   const handleAddFlower = async (data: IFlowers) => {
-    const {price,quantity,size,type,fragrance,bloomDate,name,color} =data
-    const toastId = toast.loading("Add Flower in processing ...");
+    const { price, quantity, size, type, fragrance, bloomDate, name, color } =
+      data;
+    const toastId = toast.loading("create New Variant in processing ...");
     const addData = {
       name,
       user: userData.data._id,
@@ -30,18 +31,21 @@ const AddFlower = () => {
       size,
       type,
       fragrance,
-      bloomDate
+      bloomDate,
     };
 
-    try {
 
-      const res =  await addFlower(addData);
-      if(!(res as any).error){
+
+    try {
+      const res = await addFlower(addData);
+      if (!(res as any).error) {
         toast.success("Add New Flower Successfully !", { id: toastId });
-        navigate('/view-flowers')
+        navigate("/view-flowers");
         navigate(0);
       }
-
+      if((res as any).error){
+        toast.error('Something went wrong', { id: toastId });
+      }
     } catch (error) {
       toast.error("Something went wrong !", { id: toastId });
     }
@@ -49,7 +53,9 @@ const AddFlower = () => {
 
   return (
     <div className="grid gap-4 max-w-3xl lg:max-w-5xl mx-auto my-16">
-      <h1 className="text-2xl font-bold text-center pb-10">Add Flower</h1>
+      <h1 className="text-2xl font-bold text-center pb-10">
+        Create New Variant
+      </h1>
 
       <form
         onSubmit={handleSubmit(handleAddFlower as any)}
@@ -67,6 +73,7 @@ const AddFlower = () => {
             id="flower-name"
             type="text"
             placeholder="Enter flower name"
+            defaultValue={data?.name}
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("name")}
           />
@@ -81,6 +88,7 @@ const AddFlower = () => {
             type="number"
             id="price"
             placeholder="Enter price"
+            defaultValue={data?.price}
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("price")}
           />
@@ -98,6 +106,7 @@ const AddFlower = () => {
             type="date"
             id="bloom-date"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            defaultValue={data?.bloomDate}
             {...register("bloomDate")}
           />
         </div>
@@ -110,6 +119,7 @@ const AddFlower = () => {
           <input
             type="text"
             id="color"
+            defaultValue={data?.color}
             placeholder="Enter color"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("color")}
@@ -124,6 +134,7 @@ const AddFlower = () => {
           <input
             type="number"
             id="type"
+            defaultValue={data?.quantity}
             placeholder="Enter Quantity"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("quantity")}
@@ -139,7 +150,9 @@ const AddFlower = () => {
             id="size"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("size")}
+           defaultValue={data?.size}
           >
+
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
@@ -154,10 +167,9 @@ const AddFlower = () => {
           <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("type")}
+            defaultValue={data?.type}
           >
-            <option defaultValue="default" value="default">
-              Choose type
-            </option>
+
             <option value="Roses">Roses</option>
             <option value="SunFlowers">SunFlowers</option>
             <option value="Lavender">Lavender</option>
@@ -179,10 +191,9 @@ const AddFlower = () => {
           <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("fragrance")}
+            defaultValue={data?.fragrance}
           >
-            <option defaultValue="default" value="default">
-              Choose Fragrance
-            </option>
+
             <option value="ClassicRose">Classic Rose</option>
             <option value="SunnyFlowers">Sunny Flowers</option>
             <option value="LavenderBliss">Lavender Bliss</option>
@@ -198,11 +209,11 @@ const AddFlower = () => {
           type="submit"
           className="inline-flex col-span-2 mt-5 items-center justify-center border whitespace-nowrap rounded-md text-sm font-medium border-gray-400 hover:border-blue-600 h-10 px-4 py-2"
         >
-          Add Flower
+          create variant
         </button>
       </form>
     </div>
   );
 };
 
-export default AddFlower;
+export default CreateVariant;

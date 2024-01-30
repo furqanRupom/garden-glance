@@ -11,6 +11,7 @@ import {FaEdit, FaTrash } from "react-icons/fa";
 import { IFlowers } from "../../../interface/flowers";
 import { toast } from "sonner";
 import SellModalForm from "../../../components/form/SellModalForm";
+import { Link } from "react-router-dom";
 
 const ViewFlowers: React.FC = () => {
   // const { data } = useAllFlowersQuery(undefined);
@@ -281,7 +282,7 @@ const ViewFlowers: React.FC = () => {
 
                             <li>
                               <button className="bg-gray-400 cursor-pointer p-1 px-3 font-semibold text-white rounded-xl hover:bg-gray-500">
-                                Edit and Duplicate
+                                <Link to={`/create-variant?id=${product._id}`}>create variant</Link>
                               </button>
                             </li>
                           </ul>

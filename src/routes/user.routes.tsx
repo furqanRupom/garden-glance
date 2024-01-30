@@ -1,5 +1,6 @@
 import FlowersDashboard from "../pages/Flowers/FlowersDashboard";
 import AddFlower from "../pages/Flowers/management/AddFlower";
+
 import UpdateFlower from "../pages/Flowers/management/UpdateFlower";
 import ViewFlowers from "../pages/Flowers/management/ViewFlowers";
 import SalesHistory from "../pages/Sales/SalesHistory";
@@ -28,7 +29,8 @@ export const UserSidebarPaths = [
         name: "Update Flower ",
         path: "update-flower",
         element: <UpdateFlower />,
-      },
+      }
+
     ],
   },
   {

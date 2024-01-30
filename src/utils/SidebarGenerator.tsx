@@ -6,6 +6,8 @@ import {
 
 export const sidebarGenerator = (items: IRoutePath[]) => {
   const navLinkPaths = items.reduce((acc: IUserSidebarRoutes[], item) => {
+
+
     if (item.path && item.element) {
       acc.push({
         key: item.name,

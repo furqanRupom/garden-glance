@@ -6,6 +6,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Login/Register";
 import { UserProtectedRoute } from "../private/UserProtectedRoute";
 import CreateVariant from "../pages/Flowers/management/CreateVariant";
+import UpdateFlower from "../pages/Flowers/management/UpdateFlower";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/create-variant",
         element: <CreateVariant />,
+      },
+      {
+        path: "/update-flower",
+        element: <UpdateFlower />,
       },
     ],
   },

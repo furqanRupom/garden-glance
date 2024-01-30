@@ -17,24 +17,22 @@ const CreateVariant = () => {
   const location = useLocation();
   const id = location.search.split("=")[1];
   const {data:productData} = useGetFlowerQuery(id)
-  const data = productData?.data
+  const variantData =  productData?.data
   const handleAddFlower = async (data: IFlowers) => {
     const { price, quantity, size, type, fragrance, bloomDate, name, color } =
-      data;
+       data;
     const toastId = toast.loading("create New Variant in processing ...");
     const addData = {
-      name,
+      name: name.length === 0 ? variantData?.name : name,
       user: userData.data._id,
-      price: Number(price),
-      quantity: Number(quantity),
-      color,
-      size,
-      type,
-      fragrance,
-      bloomDate,
+      price: price === 0 ? Number(variantData?.price) : Number(price),
+      quantity: quantity === 0 ? Number(variantData?.quantity) : Number(quantity),
+      color: color.length == 0 ? variantData?.color : color,
+      size: size.length == 0 ? variantData?.size : size,
+      type: type.length == 0 ? variantData?.type : type,
+      fragrance: fragrance.length == 0 ? variantData?.fragrance : fragrance,
+      bloomDate: bloomDate.length == 0 ? variantData?.bloomDate : bloomDate,
     };
-
-
 
     try {
       const res = await addFlower(addData);
@@ -73,7 +71,7 @@ const CreateVariant = () => {
             id="flower-name"
             type="text"
             placeholder="Enter flower name"
-            defaultValue={data?.name}
+            defaultValue={variantData?.name}
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("name")}
           />
@@ -88,7 +86,7 @@ const CreateVariant = () => {
             type="number"
             id="price"
             placeholder="Enter price"
-            defaultValue={data?.price}
+            defaultValue={variantData?.price}
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("price")}
           />
@@ -106,7 +104,7 @@ const CreateVariant = () => {
             type="date"
             id="bloom-date"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
-            defaultValue={data?.bloomDate}
+            defaultValue={variantData?.bloomDate}
             {...register("bloomDate")}
           />
         </div>
@@ -119,7 +117,7 @@ const CreateVariant = () => {
           <input
             type="text"
             id="color"
-            defaultValue={data?.color}
+            defaultValue={variantData?.color}
             placeholder="Enter color"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("color")}
@@ -134,7 +132,7 @@ const CreateVariant = () => {
           <input
             type="number"
             id="type"
-            defaultValue={data?.quantity}
+            defaultValue={variantData?.quantity}
             placeholder="Enter Quantity"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("quantity")}
@@ -150,7 +148,7 @@ const CreateVariant = () => {
             id="size"
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("size")}
-           defaultValue={data?.size}
+           defaultValue={variantData?.size}
           >
 
             <option value="Small">Small</option>
@@ -167,7 +165,7 @@ const CreateVariant = () => {
           <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("type")}
-            defaultValue={data?.type}
+            defaultValue={variantData?.type}
           >
 
             <option value="Roses">Roses</option>
@@ -191,7 +189,7 @@ const CreateVariant = () => {
           <select
             className="h-10 px-4 border rounded focus:outline-none focus:ring focus:border-blue-300"
             {...register("fragrance")}
-            defaultValue={data?.fragrance}
+            defaultValue={variantData?.fragrance}
           >
 
             <option value="ClassicRose">Classic Rose</option>

@@ -11,7 +11,7 @@ const SalesHistory: React.FC = () => {
   const handleSelectValue = (
     value: ISalesHistoryValue
   ) => {
- 
+
     setCategory(value);
 
   };
@@ -23,7 +23,7 @@ const SalesHistory: React.FC = () => {
       <main className="flex flex-1 flex-col gap-4  p-4 w-full md:gap-8 md:p-6">
         <div className="flex items-center">
           <h1 className="font-semibold text-lg md:text-2xl">
-            Welcome to Flowers <span className="text-gray-500">Inventory</span>{" "}
+           Sales <span className="text-gray-500">History</span>{" "}
           </h1>
           <div className="ml-auto flex gap-2">
             <select

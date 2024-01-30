@@ -6,20 +6,20 @@ import Sidebar from '../Sidebar/Sidebar';
 
 const MainLayouts = () => {
   return (
-    <Layout >
+    <Layout style={{backgroundColor:'#fff'}}>
       <Sidebar />
       <Layout className="h-full">
         <Content  className="font-poppins h-full bg-white" style={{ margin: ""  }}>
           <div
             style={{
-           
+
 
             }}
           >
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        <Footer style={{ textAlign: "center" ,backgroundColor:'#ffff'}}>
           Garden Glance ©{new Date().getFullYear()} Created by Furqan Ahmad
         </Footer>
       </Layout>

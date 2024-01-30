@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // ViewFlowers.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   useAllFlowersQuery,
@@ -11,7 +11,7 @@ import {FaEdit, FaTrash } from "react-icons/fa";
 import { IFlowers } from "../../../interface/flowers";
 import { toast } from "sonner";
 import SellModalForm from "../../../components/form/SellModalForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ViewFlowers: React.FC = () => {
   // const { data } = useAllFlowersQuery(undefined);
@@ -25,7 +25,8 @@ const ViewFlowers: React.FC = () => {
   const [fragrance,setFragrance] = useState<string>("");
   const [color,setColor] = useState<string>("");
   const [type,setType] = useState<string>("");
-
+  const navigate = useNavigate();
+  const [viewData,setViewData] = useState([])
   const {data} = useAllFlowersQuery({
     size:size,
     color:color,
@@ -34,7 +35,10 @@ const ViewFlowers: React.FC = () => {
     type:type
   })
 
-  console.log(data);
+  useEffect(()=>{
+  setViewData(data?.data)
+  },[data?.data])
+
 
   /* sell product */
 
@@ -58,10 +62,15 @@ const ViewFlowers: React.FC = () => {
 
     try {
       const res = await bulkDelete(productIds);
-      console.log(res);
-      if ((res as any)?.data.success) {
+
+      if ((res as any)?.data?.data?.deletedCount > 0) {
         toast("all the flowers deleted successfully !", { duration: 2000 });
-        window.location.reload();
+        navigate(0);
+      }else{
+         toast.error("Select product for delete !", {
+           id: toastId,
+           duration: 2000,
+         });
       }
     } catch (error) {
       toast.error("Something went wrong !", {
@@ -93,7 +102,7 @@ const ViewFlowers: React.FC = () => {
 
 
   return (
-    <div className="w-full h-full flex flex-col max-w-6xl mx-auto bg-">
+    <div className="w-full h-full flex flex-col max-w-6xl mx-auto min-h-screen">
       <main className="flex flex-1 flex-col gap-4  p-4 w-full md:gap-8 md:p-6">
         <div className="flex items-center">
           <div>
@@ -129,7 +138,7 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setPrice(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option defaultValue="default" value="default">
+            <option >
               Price Range
             </option>
             <option value="one">$0 - $100</option>
@@ -141,7 +150,7 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setSize(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option defaultValue="default" value="default">
+            <option >
               Filter By Size
             </option>
             <option value="Small">Small</option>
@@ -153,7 +162,7 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setType(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option defaultValue="default" value="default">
+            <option >
               Filter By Type
             </option>
             <option value="Roses">Roses</option>
@@ -169,7 +178,7 @@ const ViewFlowers: React.FC = () => {
             onChange={(e) => setFragrance(e.target.value)}
             className="px-3 py-2 border rounded-md bg-white shadow text-gray-700 focus:outline-none focus:ring focus:border-gray-300"
           >
-            <option defaultValue="default" value="default">
+            <option >
               Filter By Fragrance
             </option>
             <option value="ClassicRose">Classic Rose</option>
@@ -206,7 +215,7 @@ const ViewFlowers: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {data?.data?.map((product: IFlowers) => (
+                    {viewData?.map((product: IFlowers) => (
                       <tr key={product.name} className="whitespace-nowrap">
                         <td className="px-6 py-4 text-sm text-gray-500">
                           <input
@@ -248,12 +257,12 @@ const ViewFlowers: React.FC = () => {
                         <td className="px-6 py-4">
                           <ul className="flex items-center space-x-5">
                             <li>
-                              <a
-                                href="#"
+                              <Link to={`/update-flower?id=${product._id}`}
+
                                 className="text-lg text-blue-400 rounded"
                               >
                                 <FaEdit />
-                              </a>
+                              </Link>
                             </li>
 
                             <li
@@ -281,7 +290,7 @@ const ViewFlowers: React.FC = () => {
                             </li>
 
                             <li>
-                              <button className="bg-gray-400 cursor-pointer p-1 px-3 font-semibold text-white rounded-xl hover:bg-gray-500">
+                              <button className="bg-border-400 border cursor-pointer p-1 px-3 font-semibold text-gray-500  rounded-xl hover:bg-border-500">
                                 <Link to={`/create-variant?id=${product._id}`}>create variant</Link>
                               </button>
                             </li>

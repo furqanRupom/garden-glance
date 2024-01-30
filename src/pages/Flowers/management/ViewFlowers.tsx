@@ -12,6 +12,7 @@ import { IFlowers } from "../../../interface/flowers";
 import { toast } from "sonner";
 import SellModalForm from "../../../components/form/SellModalForm";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "../../../components/Loading/Loading";
 
 const ViewFlowers: React.FC = () => {
   // const { data } = useAllFlowersQuery(undefined);
@@ -25,9 +26,9 @@ const ViewFlowers: React.FC = () => {
   const [fragrance,setFragrance] = useState<string>("");
   const [color,setColor] = useState<string>("");
   const [type,setType] = useState<string>("");
+  const [viewData,setViewData] = useState([]);
   const navigate = useNavigate();
-  const [viewData,setViewData] = useState([])
-  const {data} = useAllFlowersQuery({
+  const {data,isLoading} = useAllFlowersQuery({
     size:size,
     color:color,
     fragrance:fragrance,
@@ -35,9 +36,15 @@ const ViewFlowers: React.FC = () => {
     type:type
   })
 
-  useEffect(()=>{
-  setViewData(data?.data)
-  },[data?.data])
+    useEffect(() => {
+      setViewData(data?.data);
+    }, [data?.data]);
+
+
+  if(isLoading){
+    return <Loading />
+  }
+
 
 
   /* sell product */
@@ -62,10 +69,10 @@ const ViewFlowers: React.FC = () => {
 
     try {
       const res = await bulkDelete(productIds);
-
       if ((res as any)?.data?.data?.deletedCount > 0) {
         toast("all the flowers deleted successfully !", { duration: 2000 });
         navigate(0);
+
       }else{
          toast.error("Select product for delete !", {
            id: toastId,
@@ -90,7 +97,7 @@ const ViewFlowers: React.FC = () => {
         id: toastId,
         duration: 2000,
       });
-      window.location.reload();
+      navigate(0);
     } catch (error) {
       toast.error("Something went wrong !", {
         id: toastId,

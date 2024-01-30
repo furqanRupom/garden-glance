@@ -39,7 +39,6 @@ const AddFlower = () => {
       if(!(res as any).error){
         toast.success("Add New Flower Successfully !", { id: toastId });
         navigate('/view-flowers')
-        navigate(0);
       }
 
     } catch (error) {
